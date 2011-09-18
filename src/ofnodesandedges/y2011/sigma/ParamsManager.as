@@ -21,6 +21,7 @@ package ofnodesandedges.y2011.sigma{
 				'maxDisplayThickness': 12,
 				'textThreshold': 3.5,
 				// COLORS:
+				'nodesColor': 0xaaaaaa,
 				'edgesColor': 0x888888,
 				'labelsColor': 0x444444,
 				// STRINGS:
@@ -45,9 +46,10 @@ package ofnodesandedges.y2011.sigma{
 						_params[key] = Number(obj[key]);
 						break;
 					// COLORS:
+					case 'nodesColor':
 					case 'edgesColor':
 					case 'labelsColor':
-						_params[key] = Boolean(obj[key]);
+						_params[key] = getColor(obj[key]);
 						break;
 					// STRINGS:
 					case 'defaultEdgeType':
@@ -96,6 +98,26 @@ package ofnodesandedges.y2011.sigma{
 		
 		public static function get callbacks():Object{
 			return _callbacks;
+		}
+		
+		private static function getColor(s:String):uint{
+			var res:uint = 0xFFFFFF;
+			if(s.length>=3){
+				if(s.substr(0,2)=='0x'){
+					res = uint(s);
+				}else if(s.charAt(0)=='#'){
+					var l:int = s.length-1;
+					if(l==3){
+						res = uint('0x'+s.charAt(1)+s.charAt(1)+s.charAt(2)+s.charAt(2)+s.charAt(3)+s.charAt(3));
+					}else{
+						res = uint('0x'+s.substr(1,l));
+					}
+				}else{
+					res = uint('0x'+s);
+				}
+			}
+			
+			return res;
 		}
 
 	}

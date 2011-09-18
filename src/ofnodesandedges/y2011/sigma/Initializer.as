@@ -29,6 +29,7 @@ package ofnodesandedges.y2011.sigma{
 		public function init():void{
 			// Core initialization:
 			CoreControler.init(stage,stage.stageWidth,stage.stageHeight);
+			ForceAtlas.initAlgo();
 			stage.addEventListener(Event.RESIZE,onResize);
 			
 			// Load config:
@@ -80,7 +81,8 @@ package ofnodesandedges.y2011.sigma{
 			CoreControler.maxDisplayThickness = ParamsManager.params['maxDisplayThickness'];
 			CoreControler.textThreshold = ParamsManager.params['textThreshold'];
 			
-			GraphDrawer.setEdgesColor(ParamsManager.params['edgesColors']);
+			GraphDrawer.setNodesColor(ParamsManager.params['nodesColor']);
+			GraphDrawer.setEdgesColor(ParamsManager.params['edgesColor']);
 			GraphDrawer.setLabelsColor(ParamsManager.params['labelsColor']);
 			
 			GraphDrawer.fontName = ParamsManager.params['fontName'];
@@ -133,6 +135,8 @@ package ofnodesandedges.y2011.sigma{
 				
 				// Ready:
 				ExternalInterface.call(ParamsManager.callbacks['onReady']);
+			}else{
+				displayErrorMessage('ExternalInterface is not available.');
 			}
 		}
 		

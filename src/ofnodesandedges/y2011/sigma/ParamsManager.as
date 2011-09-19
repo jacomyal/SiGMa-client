@@ -13,7 +13,7 @@ package ofnodesandedges.y2011.sigma{
 				'displayEdges': true,
 				'displayNodes': true,
 				'displayLabels': true,
-				'edgeSizes': true,
+				'useEdgeSizes': true,
 				// NUMBERS:
 				'minDisplaySize': 2,
 				'maxDisplaySize': 6,
@@ -34,7 +34,7 @@ package ofnodesandedges.y2011.sigma{
 					case 'displayEdges':
 					case 'displayNodes':
 					case 'displayLabels':
-					case 'edgeSizes':
+					case 'useEdgeSizes':
 						_params[key] = Boolean(obj[key]);
 						break;
 					// NUMBERS:
@@ -49,7 +49,7 @@ package ofnodesandedges.y2011.sigma{
 					case 'nodesColor':
 					case 'edgesColor':
 					case 'labelsColor':
-						_params[key] = getColor(obj[key]);
+						_params[key] = SigmaMethods.getColor(obj[key]);
 						break;
 					// STRINGS:
 					case 'defaultEdgeType':
@@ -98,26 +98,6 @@ package ofnodesandedges.y2011.sigma{
 		
 		public static function get callbacks():Object{
 			return _callbacks;
-		}
-		
-		private static function getColor(s:String):uint{
-			var res:uint = 0xFFFFFF;
-			if(s.length>=3){
-				if(s.substr(0,2)=='0x'){
-					res = uint(s);
-				}else if(s.charAt(0)=='#'){
-					var l:int = s.length-1;
-					if(l==3){
-						res = uint('0x'+s.charAt(1)+s.charAt(1)+s.charAt(2)+s.charAt(2)+s.charAt(3)+s.charAt(3));
-					}else{
-						res = uint('0x'+s.substr(1,l));
-					}
-				}else{
-					res = uint('0x'+s);
-				}
-			}
-			
-			return res;
 		}
 
 	}

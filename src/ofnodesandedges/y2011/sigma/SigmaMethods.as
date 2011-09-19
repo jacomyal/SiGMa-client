@@ -27,8 +27,11 @@ package ofnodesandedges.y2011.sigma{
 		public static var randomScale:Number = 2000;
 		
 		public static function pushNode(value:Object):Node{
+//			if(value==null) throw(new Error('Error: a node is null.'));
+//			if(value['id']==undefined) throw(new Error('Error: node without \'id\' attribute.'));
+			
 			var nodeObject:Object = value;
-			var node:Node = new Node(nodeObject['id'],nodeObject['label']);
+			var node:Node = new Node(nodeObject['id'],nodeObject['label'] ? nodeObject['label'] : nodeObject['id']);
 			
 			for(var key:String in nodeObject){
 				switch(key){
@@ -36,7 +39,7 @@ package ofnodesandedges.y2011.sigma{
 					case "y": node.y = int(nodeObject[key]); break;
 					case "shape": node.shape = int(nodeObject[key]); break;
 					case "size": node.size = Number(nodeObject[key]); break;
-					case "color": node.color = uint(nodeObject[key]); break;
+					case "color": node.color = getColor(nodeObject[key]); break;
 					default: node.attributes[key] = nodeObject[key];
 				}
 			}
@@ -51,6 +54,11 @@ package ofnodesandedges.y2011.sigma{
 		}
 		
 		public static function pushEdge(value:Object):Edge{
+//			if(value==null) throw(new Error('Error: an edge is null.'));
+//			if(value['id']==undefined) throw(new Error('Error: an edge without \'id\' attribute.'));
+//			if(value['sourceID']==undefined) throw(new Error('Error: an edge without \'sourceID\' attribute.'));
+//			if(value['targetID']==undefined) throw(new Error('Error: an edge without \'targetID\' attribute.'));
+			
 			var edgeObject:Object = value;
 			var edge:Edge = new Edge(edgeObject["id"],edgeObject["sourceID"],edgeObject["targetID"]);
 			
@@ -147,7 +155,7 @@ package ofnodesandedges.y2011.sigma{
 					
 					for(var value:String in attribute[VALUES]){
 						if(node.attributes[field]==value){
-							node.color = uint(attribute[VALUES][value]);
+							node.color = getColor(attribute[VALUES][value]);
 							hasGoodValue = true;
 							break;
 						}
@@ -164,6 +172,26 @@ package ofnodesandedges.y2011.sigma{
 			for each(node in Graph.nodes){
 				node.size = node.attributes[field] ? node.attributes[field] : 1;
 			}
+		}
+		
+		public static function getColor(s:String):uint{
+			var res:uint = 0xFFFFFF;
+			if(s.length>=3){
+				if(s.substr(0,2)=='0x'){
+					res = uint(s);
+				}else if(s.charAt(0)=='#'){
+					var l:int = s.length-1;
+					if(l==3){
+						res = uint('0x'+s.charAt(1)+s.charAt(1)+s.charAt(2)+s.charAt(2)+s.charAt(3)+s.charAt(3));
+					}else{
+						res = uint('0x'+s.substr(1,l));
+					}
+				}else{
+					res = uint('0x'+s);
+				}
+			}
+			
+			return res;
 		}
 	}
 }

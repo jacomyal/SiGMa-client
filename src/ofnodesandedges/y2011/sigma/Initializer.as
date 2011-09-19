@@ -72,7 +72,7 @@ package ofnodesandedges.y2011.sigma{
 			CoreControler.displayNodes = ParamsManager.params['displayNodes'];
 			CoreControler.displayEdges = ParamsManager.params['displayEdges'];
 			CoreControler.displayLabels = ParamsManager.params['displayLabels'];
-			CoreControler.edgeSizes = ParamsManager.params['edgeSizes'];
+			CoreControler.edgeSizes = ParamsManager.params['useEdgeSizes'];
 			Graph.defaultEdgeType = ParamsManager.params['defaultEdgeType'];
 			
 			CoreControler.minDisplaySize = ParamsManager.params['minDisplaySize'];
@@ -105,13 +105,22 @@ package ofnodesandedges.y2011.sigma{
 				ExternalInterface.addCallback("getDisplayNodes",function():Boolean{return CoreControler.displayNodes;});
 				ExternalInterface.addCallback("setDisplayLabels",function(value:Boolean):void{CoreControler.displayLabels = value;});
 				ExternalInterface.addCallback("getDisplayLabels",function():Boolean{return CoreControler.displayLabels;});
+				ExternalInterface.addCallback("setUseEdgeSizes",function(value:Boolean):void{CoreControler.edgeSizes = value;});
+				ExternalInterface.addCallback("getUseEdgeSizes",function():Boolean{return CoreControler.edgeSizes;});
+				ExternalInterface.addCallback("setDefaultEdgeType",function(value:int):void{Graph.defaultEdgeType = value;});
+				ExternalInterface.addCallback("getDefaultEdgeType",function():int{return Graph.defaultEdgeType;});
+				
 				ExternalInterface.addCallback("setMinDisplaySize",function(value:Number):void{CoreControler.minDisplaySize = value;});
 				ExternalInterface.addCallback("getMinDisplaySize",function():Number{return CoreControler.minDisplaySize;});
 				ExternalInterface.addCallback("setMaxDisplaySize",function(value:Number):void{CoreControler.maxDisplaySize = value;});
 				ExternalInterface.addCallback("getMaxDisplaySize",function():Number{return CoreControler.maxDisplaySize;});
+				ExternalInterface.addCallback("setMinDisplayThickness",function(value:Number):void{CoreControler.minDisplayThickness = value;});
+				ExternalInterface.addCallback("getMinDisplayThickness",function():Number{return CoreControler.minDisplayThickness;});
+				ExternalInterface.addCallback("setMaxDisplayThickness",function(value:Number):void{CoreControler.maxDisplayThickness = value;});
+				ExternalInterface.addCallback("getMaxDisplayThickness",function():Number{return CoreControler.maxDisplayThickness;});
 				
-				ExternalInterface.addCallback("setColor",SigmaMethods.setColor);
-				ExternalInterface.addCallback("setSize",SigmaMethods.setSize);
+				ExternalInterface.addCallback("changeNodesColor",SigmaMethods.setColor);
+				ExternalInterface.addCallback("changeNodesSize",SigmaMethods.setSize);
 				
 				ExternalInterface.addCallback("killForceAtlas",ForceAtlas.killAlgo);
 				ExternalInterface.addCallback("initForceAtlas",ForceAtlas.initAlgo);

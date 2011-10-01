@@ -9,7 +9,12 @@ package ofnodesandedges.y2011.sigma{
 	import com.ofnodesandedges.y2011.utils.ColorUtils;
 	import com.ofnodesandedges.y2011.utils.Trace;
 	
+	import flash.events.Event;
 	import flash.external.ExternalInterface;
+	
+	import ofnodesandedges.y2011.sigma.loading.FileLoader;
+	import ofnodesandedges.y2011.sigma.loading.LoaderGDF;
+	import ofnodesandedges.y2011.sigma.loading.LoaderGEXF;
 	
 	public class SigmaMethods{
 		
@@ -23,6 +28,13 @@ package ofnodesandedges.y2011.sigma{
 		public static const COLOR_MIN:String = "colorMin";
 		public static const COLOR_MAX:String = "colorMax";
 		public static const COLOR_DEF:String = "default";
+		
+		public static const FILE_LOADERS:Object = {
+			"default": LoaderJSON,
+			"gexf": LoaderGEXF,
+			"gdf": LoaderGDF,
+			"json": LoaderJSON
+		};
 		
 		public static var randomScale:Number = 2000;
 		
@@ -81,25 +93,36 @@ package ofnodesandedges.y2011.sigma{
 		}
 		
 		public static function pushGraph(value:Object):void{
-			var nodes:Object = value["nodes"];
-			var edges:Object = value["edges"];
-			
-			var newNodes:Vector.<Node> = new Vector.<Node>();
-			var newEdges:Vector.<Edge> = new Vector.<Edge>();
-			
-			var node:Object, edge:Object;
-			
-			// Nodes:
-			for each(node in nodes){
-				newNodes.push(pushNode(node));
+			if(value["url"]){
+				var ext:String = value["url"];
+				ext = ext.indexOf('.')>=0 ? ext.substring(ext.lastIndexOf('.'),ext.length) : 'default';
+				
+				var loader:FileLoader = FILE_LOADERS[ext] ? FILE_LOADERS[ext] : FILE_LOADERS['default'];
+				loader.addEventListener(FileLoader.FILE_PARSED,function(e:Event):void{
+					
+					
+				});
+			}else{
+				var nodes:Object = value["nodes"];
+				var edges:Object = value["edges"];
+				
+				var newNodes:Vector.<Node> = new Vector.<Node>();
+				var newEdges:Vector.<Edge> = new Vector.<Edge>();
+				
+				var node:Object, edge:Object;
+				
+				// Nodes:
+				for each(node in nodes){
+					newNodes.push(pushNode(node));
+				}
+				
+				// Edges:
+				for each(edge in edges){
+					newEdges.push(pushEdge(edge));
+				}
+				
+				Graph.pushGraph(newNodes,newEdges,false);
 			}
-			
-			// Edges:
-			for each(edge in edges){
-				newEdges.push(pushEdge(edge));
-			}
-			
-			Graph.pushGraph(newNodes,newEdges,false);
 		}
 		
 		public static function updateGraph(value:Object):void{

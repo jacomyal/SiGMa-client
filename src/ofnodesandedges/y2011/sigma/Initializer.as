@@ -88,62 +88,62 @@ package ofnodesandedges.y2011.sigma{
 			GraphDrawer.fontName = ParamsManager.params['fontName'];
 			
 			// Callbacks:
-			if(ExternalInterface.available){
+			if(flash.external.ExternalInterface.available){
 				// Sigma methods:
-				ExternalInterface.addCallback("deleteGraph",Graph.deleteGraph);
-				ExternalInterface.addCallback("pushGraph",SigmaMethods.pushGraph);
-				ExternalInterface.addCallback("updateGraph",SigmaMethods.updateGraph);
-				ExternalInterface.addCallback("resetGraphPosition",SigmaMethods.resetGraphPosition);
+				flash.external.ExternalInterface.addCallback("deleteGraph",Graph.deleteGraph);
+				flash.external.ExternalInterface.addCallback("pushGraph",SigmaMethods.pushGraph);
+				flash.external.ExternalInterface.addCallback("updateGraph",SigmaMethods.updateGraph);
+				flash.external.ExternalInterface.addCallback("resetGraphPosition",SigmaMethods.resetGraphPosition);
 				
-				ExternalInterface.addCallback("activateFishEye",function():void{CoreControler.addPostProcessHook(Glasses.fishEyeDisplay);});
-				ExternalInterface.addCallback("deactivateFishEye",function():void{CoreControler.removePostProcessHook(Glasses.fishEyeDisplay);});
-				ExternalInterface.addCallback("isFishEye",function():Boolean{return CoreControler.hasPostProcessHook(Glasses.fishEyeDisplay);});
+				flash.external.ExternalInterface.addCallback("activateFishEye",function():void{CoreControler.addPostProcessHook(Glasses.fishEyeDisplay);});
+				flash.external.ExternalInterface.addCallback("deactivateFishEye",function():void{CoreControler.removePostProcessHook(Glasses.fishEyeDisplay);});
+				flash.external.ExternalInterface.addCallback("isFishEye",function():Boolean{return CoreControler.hasPostProcessHook(Glasses.fishEyeDisplay);});
 				
-				ExternalInterface.addCallback("setDisplayEdges",function(value:Boolean):void{CoreControler.displayEdges = value;});
-				ExternalInterface.addCallback("getDisplayEdges",function():Boolean{return CoreControler.displayEdges;});
-				ExternalInterface.addCallback("setDisplayNodes",function(value:Boolean):void{CoreControler.displayNodes = value;});
-				ExternalInterface.addCallback("getDisplayNodes",function():Boolean{return CoreControler.displayNodes;});
-				ExternalInterface.addCallback("setDisplayLabels",function(value:Boolean):void{CoreControler.displayLabels = value;});
-				ExternalInterface.addCallback("getDisplayLabels",function():Boolean{return CoreControler.displayLabels;});
-				ExternalInterface.addCallback("setUseEdgeSizes",function(value:Boolean):void{CoreControler.edgeSizes = value;});
-				ExternalInterface.addCallback("getUseEdgeSizes",function():Boolean{return CoreControler.edgeSizes;});
-				ExternalInterface.addCallback("setDefaultEdgeType",function(value:int):void{Graph.defaultEdgeType = value;});
-				ExternalInterface.addCallback("getDefaultEdgeType",function():int{return Graph.defaultEdgeType;});
+				flash.external.ExternalInterface.addCallback("setDisplayEdges",function(value:Boolean):void{CoreControler.displayEdges = value;});
+				flash.external.ExternalInterface.addCallback("getDisplayEdges",function():Boolean{return CoreControler.displayEdges;});
+				flash.external.ExternalInterface.addCallback("setDisplayNodes",function(value:Boolean):void{CoreControler.displayNodes = value;});
+				flash.external.ExternalInterface.addCallback("getDisplayNodes",function():Boolean{return CoreControler.displayNodes;});
+				flash.external.ExternalInterface.addCallback("setDisplayLabels",function(value:Boolean):void{CoreControler.displayLabels = value;});
+				flash.external.ExternalInterface.addCallback("getDisplayLabels",function():Boolean{return CoreControler.displayLabels;});
+				flash.external.ExternalInterface.addCallback("setUseEdgeSizes",function(value:Boolean):void{CoreControler.edgeSizes = value;});
+				flash.external.ExternalInterface.addCallback("getUseEdgeSizes",function():Boolean{return CoreControler.edgeSizes;});
+				flash.external.ExternalInterface.addCallback("setDefaultEdgeType",function(value:int):void{Graph.defaultEdgeType = value;});
+				flash.external.ExternalInterface.addCallback("getDefaultEdgeType",function():int{return Graph.defaultEdgeType;});
 				
-				ExternalInterface.addCallback("setMinDisplaySize",function(value:Number):void{CoreControler.minDisplaySize = value;});
-				ExternalInterface.addCallback("getMinDisplaySize",function():Number{return CoreControler.minDisplaySize;});
-				ExternalInterface.addCallback("setMaxDisplaySize",function(value:Number):void{CoreControler.maxDisplaySize = value;});
-				ExternalInterface.addCallback("getMaxDisplaySize",function():Number{return CoreControler.maxDisplaySize;});
-				ExternalInterface.addCallback("setMinDisplayThickness",function(value:Number):void{CoreControler.minDisplayThickness = value;});
-				ExternalInterface.addCallback("getMinDisplayThickness",function():Number{return CoreControler.minDisplayThickness;});
-				ExternalInterface.addCallback("setMaxDisplayThickness",function(value:Number):void{CoreControler.maxDisplayThickness = value;});
-				ExternalInterface.addCallback("getMaxDisplayThickness",function():Number{return CoreControler.maxDisplayThickness;});
+				flash.external.ExternalInterface.addCallback("setMinDisplaySize",function(value:Number):void{CoreControler.minDisplaySize = value;});
+				flash.external.ExternalInterface.addCallback("getMinDisplaySize",function():Number{return CoreControler.minDisplaySize;});
+				flash.external.ExternalInterface.addCallback("setMaxDisplaySize",function(value:Number):void{CoreControler.maxDisplaySize = value;});
+				flash.external.ExternalInterface.addCallback("getMaxDisplaySize",function():Number{return CoreControler.maxDisplaySize;});
+				flash.external.ExternalInterface.addCallback("setMinDisplayThickness",function(value:Number):void{CoreControler.minDisplayThickness = value;});
+				flash.external.ExternalInterface.addCallback("getMinDisplayThickness",function():Number{return CoreControler.minDisplayThickness;});
+				flash.external.ExternalInterface.addCallback("setMaxDisplayThickness",function(value:Number):void{CoreControler.maxDisplayThickness = value;});
+				flash.external.ExternalInterface.addCallback("getMaxDisplayThickness",function():Number{return CoreControler.maxDisplayThickness;});
 				
-				ExternalInterface.addCallback("changeNodesColor",SigmaMethods.setColor);
-				ExternalInterface.addCallback("changeNodesSize",SigmaMethods.setSize);
+				flash.external.ExternalInterface.addCallback("changeNodesColor",SigmaMethods.setColor);
+				flash.external.ExternalInterface.addCallback("changeNodesSize",SigmaMethods.setSize);
 				
-				ExternalInterface.addCallback("killForceAtlas",ForceAtlas.killAlgo);
-				ExternalInterface.addCallback("initForceAtlas",ForceAtlas.initAlgo);
+				flash.external.ExternalInterface.addCallback("killForceAtlas",ForceAtlas.killAlgo);
+				flash.external.ExternalInterface.addCallback("initForceAtlas",ForceAtlas.initAlgo);
 				
 				// External callbacks:
 				if(ParamsManager.callbacks['onClickNodes']){
 					InteractionControler.addEventListener(InteractionControler.CLICK_NODES,function(e:ContentEvent):void{
-						if (ExternalInterface.available) {
-							ExternalInterface.call(ParamsManager.callbacks['onClickNodes'],e.content);
+						if (flash.external.ExternalInterface.available) {
+							flash.external.ExternalInterface.call(ParamsManager.callbacks['onClickNodes'],e.content);
 						}
 					});
 				}
 				
 				if(ParamsManager.callbacks['onOverNodes']){
 					InteractionControler.addEventListener(InteractionControler.OVER_NODES,function(e:ContentEvent):void{
-						if (ExternalInterface.available) {
-							ExternalInterface.call(ParamsManager.callbacks['onOverNodes'],e.content);
+						if (flash.external.ExternalInterface.available) {
+							flash.external.ExternalInterface.call(ParamsManager.callbacks['onOverNodes'],e.content);
 						}
 					});
 				}
 				
 				// Ready:
-				ExternalInterface.call(ParamsManager.callbacks['onReady']);
+				flash.external.ExternalInterface.call(ParamsManager.callbacks['onReady']);
 			}else{
 				displayErrorMessage('ExternalInterface is not available.');
 			}

@@ -8,11 +8,9 @@
 			import ofnodesandedges.y2011.sigma.Initializer;
 			
 			public function init():void{
-				Security.allowDomain("*");
 				stage.frameRate = 60;
 				
 				Initializer(stage.addChild(new Initializer())).init();
-				
 			}
 		]]>
 	</fx:Script>

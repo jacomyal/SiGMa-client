@@ -15,6 +15,7 @@ package ofnodesandedges.y2011.sigma{
 	import ofnodesandedges.y2011.sigma.loading.FileLoader;
 	import ofnodesandedges.y2011.sigma.loading.LoaderGDF;
 	import ofnodesandedges.y2011.sigma.loading.LoaderGEXF;
+	import ofnodesandedges.y2011.sigma.loading.LoaderJSON;
 	
 	public class SigmaMethods{
 		
@@ -31,9 +32,9 @@ package ofnodesandedges.y2011.sigma{
 		
 		public static const FILE_LOADERS:Object = {
 			"default": LoaderJSON,
-			"gexf": LoaderGEXF,
-			"gdf": LoaderGDF,
-			"json": LoaderJSON
+			".gexf": LoaderGEXF,
+			".gdf": LoaderGDF,
+			".json": LoaderJSON
 		};
 		
 		public static var randomScale:Number = 2000;
@@ -93,15 +94,16 @@ package ofnodesandedges.y2011.sigma{
 		}
 		
 		public static function pushGraph(value:Object):void{
-			if(value["url"]){
-				var ext:String = value["url"];
+			if(value is String){
+				var ext:String = String(value);
 				ext = ext.indexOf('.')>=0 ? ext.substring(ext.lastIndexOf('.'),ext.length) : 'default';
 				
-				var loader:FileLoader = FILE_LOADERS[ext] ? FILE_LOADERS[ext] : FILE_LOADERS['default'];
+				var loader:FileLoader = new (FILE_LOADERS[ext] ? FILE_LOADERS[ext] : FILE_LOADERS['default'])();
 				loader.addEventListener(FileLoader.FILE_PARSED,function(e:Event):void{
-					
-					
+					pushGraph(loader.graph);
 				});
+				
+				loader.openFile(String(value));
 			}else{
 				var nodes:Object = value["nodes"];
 				var edges:Object = value["edges"];
@@ -126,27 +128,39 @@ package ofnodesandedges.y2011.sigma{
 		}
 		
 		public static function updateGraph(value:Object):void{
-			var nodes:Object = value["nodes"];
-			var edges:Object = value["edges"];
-			
-			var newNodes:Vector.<Node> = new Vector.<Node>();
-			var newEdges:Vector.<Edge> = new Vector.<Edge>();
-			
-			var node:Object, edge:Object;
-			
-			// Nodes:
-			for each(node in nodes){
-				newNodes.push(pushNode(node));
+			if(value is String){
+				var ext:String = String(value);
+				ext = ext.indexOf('.')>=0 ? ext.substring(ext.lastIndexOf('.'),ext.length) : 'default';
+				
+				var loader:FileLoader = new (FILE_LOADERS[ext] ? FILE_LOADERS[ext] : FILE_LOADERS['default'])();
+				loader.addEventListener(FileLoader.FILE_PARSED,function(e:Event):void{
+					updateGraph(loader.graph);
+				});
+				
+				loader.openFile(String(value));
+			}else{
+				var nodes:Object = value["nodes"];
+				var edges:Object = value["edges"];
+				
+				var newNodes:Vector.<Node> = new Vector.<Node>();
+				var newEdges:Vector.<Edge> = new Vector.<Edge>();
+				
+				var node:Object, edge:Object;
+				
+				// Nodes:
+				for each(node in nodes){
+					newNodes.push(pushNode(node));
+				}
+				
+				// Edges:
+				for each(edge in edges){
+					newEdges.push(pushEdge(edge));
+				}
+				
+				CircularLayout.apply(Math.sqrt(nodes.length+1)*10);
+				
+				Graph.updateGraph(newNodes,newEdges,true);
 			}
-			
-			// Edges:
-			for each(edge in edges){
-				newEdges.push(pushEdge(edge));
-			}
-			
-			CircularLayout.apply(Math.sqrt(nodes.length+1)*10);
-			
-			Graph.updateGraph(newNodes,newEdges,true);
 		}
 		
 		public static function setColor(field:String,attributes:Object):void{
@@ -197,7 +211,9 @@ package ofnodesandedges.y2011.sigma{
 			}
 		}
 		
-		public static function getColor(s:String):uint{
+		public static function getColor(s:*):uint{
+			if(s is uint) return s;
+			
 			var res:uint = 0xFFFFFF;
 			if(s.length>=3){
 				if(s.substr(0,2)=='0x'){

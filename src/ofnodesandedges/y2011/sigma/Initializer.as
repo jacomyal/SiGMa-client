@@ -6,6 +6,7 @@ package ofnodesandedges.y2011.sigma{
 	import com.ofnodesandedges.y2011.core.drawing.GraphDrawer;
 	import com.ofnodesandedges.y2011.core.interaction.Glasses;
 	import com.ofnodesandedges.y2011.core.interaction.InteractionControler;
+	import com.ofnodesandedges.y2011.core.layout.RotationLayout;
 	import com.ofnodesandedges.y2011.core.layout.forceAtlas.ForceAtlas;
 	import com.ofnodesandedges.y2011.utils.ContentEvent;
 	
@@ -17,6 +18,7 @@ package ofnodesandedges.y2011.sigma{
 	import flash.external.ExternalInterface;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.system.Security;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
@@ -26,10 +28,15 @@ package ofnodesandedges.y2011.sigma{
 		private var _configPath:String;
 		private var _config:Object;
 		
+		public function Initializer(){}
+		
 		public function init():void{
+			RotationLayout;
+			
+			Security.allowDomain("*");
+			
 			// Core initialization:
 			CoreControler.init(stage,stage.stageWidth,stage.stageHeight);
-			ForceAtlas.initAlgo();
 			stage.addEventListener(Event.RESIZE,onResize);
 			
 			// Load config:
@@ -55,7 +62,7 @@ package ofnodesandedges.y2011.sigma{
 		
 		private function onLoadingComplete(e:Event):void{
 			try{
-				_config = JSON.decode(URLLoader(e.target).data,true);
+				_config = JSON.decode(URLLoader(e.target).data);
 			}catch(e:Error){
 				displayErrorMessage("Can't read JSON config file ('"+e.message+"')");
 			}
@@ -118,6 +125,8 @@ package ofnodesandedges.y2011.sigma{
 				flash.external.ExternalInterface.addCallback("getMinDisplayThickness",function():Number{return CoreControler.minDisplayThickness;});
 				flash.external.ExternalInterface.addCallback("setMaxDisplayThickness",function(value:Number):void{CoreControler.maxDisplayThickness = value;});
 				flash.external.ExternalInterface.addCallback("getMaxDisplayThickness",function():Number{return CoreControler.maxDisplayThickness;});
+				flash.external.ExternalInterface.addCallback("setTextThreshold",function(value:Number):void{CoreControler.textThreshold = value;});
+				flash.external.ExternalInterface.addCallback("getTextThreshold",function():Number{return CoreControler.textThreshold;});
 				
 				flash.external.ExternalInterface.addCallback("changeNodesColor",SigmaMethods.setColor);
 				flash.external.ExternalInterface.addCallback("changeNodesSize",SigmaMethods.setSize);
@@ -128,17 +137,13 @@ package ofnodesandedges.y2011.sigma{
 				// External callbacks:
 				if(ParamsManager.callbacks['onClickNodes']){
 					InteractionControler.addEventListener(InteractionControler.CLICK_NODES,function(e:ContentEvent):void{
-						if (flash.external.ExternalInterface.available) {
-							flash.external.ExternalInterface.call(ParamsManager.callbacks['onClickNodes'],e.content);
-						}
+						ExternalInterface.call(ParamsManager.callbacks['onClickNodes'],e.content);
 					});
 				}
 				
 				if(ParamsManager.callbacks['onOverNodes']){
 					InteractionControler.addEventListener(InteractionControler.OVER_NODES,function(e:ContentEvent):void{
-						if (flash.external.ExternalInterface.available) {
-							flash.external.ExternalInterface.call(ParamsManager.callbacks['onOverNodes'],e.content);
-						}
+						ExternalInterface.call(ParamsManager.callbacks['onOverNodes'],e.content);
 					});
 				}
 				

@@ -17,8 +17,8 @@ package ofnodesandedges.y2011.sigma{
 				// NUMBERS:
 				'minDisplaySize': 2,
 				'maxDisplaySize': 6,
-				'minDisplayThickness': 1,
-				'maxDisplayThickness': 12,
+				'minDisplayThickness': 0.1,
+				'maxDisplayThickness': 0.5,
 				'textThreshold': 3.5,
 				// COLORS:
 				'nodesColor': 0xaaaaaa,

@@ -15,8 +15,8 @@ package ofnodesandedges.y2011.sigma{
 				'displayLabels': true,
 				'useEdgeSizes': true,
 				'useFishEye': false,
-				'isDraggable': false,
-				'isZoomable': false,
+				'isDraggable': true,
+				'isZoomable': true,
 				// NUMBERS:
 				'minDisplaySize': 2,
 				'maxDisplaySize': 6,

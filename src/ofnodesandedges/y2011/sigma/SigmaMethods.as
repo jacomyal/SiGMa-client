@@ -161,6 +161,48 @@ package ofnodesandedges.y2011.sigma{
 			}
 		}
 		
+		public static function getGraph():Object{
+			var graph:Object = {'nodes':[],'edges':[]};
+			
+			Graph.nodes.forEach(function(node:Node,i:int,a:*):void{
+				var n:Object = {
+					'id': node.id,
+					'label': node.label,
+					'x': node.x,
+					'y': node.y,
+					'color': '#'+node.color.toString(16),
+					'shape': node.shape,
+					'size': node.size
+				};
+				
+				for(var key:String in node.attributes){
+					n[key] = node.attributes[key];
+				}
+				
+				graph['nodes'].push(n);
+			});
+			
+			Graph.edges.forEach(function(edge:Edge,i:int,a:*):void{
+				var e:Object = {
+					'id': edge.id,
+					'sourceID': edge.sourceID,
+					'targetID': edge.targetID,
+					'type': edge.type,
+					'thickness': edge.thickness
+				};
+				
+				if(edge.label){ e['label'] = edge.label; }
+				
+				for(var key:String in edge.attributes){
+					e[key] = edge.attributes[key];
+				}
+				
+				graph['edges'].push(e);
+			});
+			
+			return graph;
+		}
+		
 		public static function setColor(field:String,attributes:Object):void{
 			var attribute:Object = attributes[field];
 			var node:Node;

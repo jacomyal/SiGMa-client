@@ -109,6 +109,7 @@ package ofnodesandedges.y2011.sigma{
 				flash.external.ExternalInterface.addCallback("deleteGraph",Graph.deleteGraph);
 				flash.external.ExternalInterface.addCallback("pushGraph",SigmaMethods.pushGraph);
 				flash.external.ExternalInterface.addCallback("updateGraph",SigmaMethods.updateGraph);
+				flash.external.ExternalInterface.addCallback("getGraph",SigmaMethods.getGraph);
 				flash.external.ExternalInterface.addCallback("resetGraphPosition",SigmaMethods.resetGraphPosition);
 				
 				flash.external.ExternalInterface.addCallback("activateFishEye",function():void{CoreControler.addPostProcessHook(Glasses.fishEyeDisplay);});
@@ -156,7 +157,7 @@ package ofnodesandedges.y2011.sigma{
 				
 				flash.external.ExternalInterface.addCallback("applyCircularLayout",CircularLayout.apply);
 				flash.external.ExternalInterface.addCallback("rotate",function(angle:Number,centerX:Number=0,centerY:Number=0):void{
-					RotationLayout.angle = angle; RotationLayout.x = centerX; RotationLayout.y = centerY;
+					RotationLayout.angle = angle*Math.PI/180; RotationLayout.x = centerX; RotationLayout.y = centerY;
 					RotationLayout.rotate();
 				});
 				

@@ -157,8 +157,6 @@ package ofnodesandedges.y2011.sigma{
 					newEdges.push(pushEdge(edge));
 				}
 				
-				CircularLayout.apply(Math.sqrt(nodes.length+1)*10);
-				
 				Graph.updateGraph(newNodes,newEdges,true);
 			}
 		}

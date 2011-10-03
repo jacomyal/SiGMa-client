@@ -6,6 +6,7 @@ package ofnodesandedges.y2011.sigma{
 	import com.ofnodesandedges.y2011.core.drawing.GraphDrawer;
 	import com.ofnodesandedges.y2011.core.interaction.Glasses;
 	import com.ofnodesandedges.y2011.core.interaction.InteractionControler;
+	import com.ofnodesandedges.y2011.core.layout.CircularLayout;
 	import com.ofnodesandedges.y2011.core.layout.RotationLayout;
 	import com.ofnodesandedges.y2011.core.layout.forceAtlas.ForceAtlas;
 	import com.ofnodesandedges.y2011.utils.ContentEvent;
@@ -80,13 +81,21 @@ package ofnodesandedges.y2011.sigma{
 			CoreControler.displayEdges = ParamsManager.params['displayEdges'];
 			CoreControler.displayLabels = ParamsManager.params['displayLabels'];
 			CoreControler.edgeSizes = ParamsManager.params['useEdgeSizes'];
-			Graph.defaultEdgeType = ParamsManager.params['defaultEdgeType'];
+			CoreControler.isDraggable = ParamsManager.params['isDraggable'];
+			CoreControler.isZoomable = ParamsManager.params['isZoomable'];
+			
+			if(ParamsManager.params['useFishEye']){ CoreControler.addPostProcessHook(Glasses.fishEyeDisplay); }
 			
 			CoreControler.minDisplaySize = ParamsManager.params['minDisplaySize'];
 			CoreControler.maxDisplaySize = ParamsManager.params['maxDisplaySize'];
 			CoreControler.minDisplayThickness = ParamsManager.params['minDisplayThickness'];
 			CoreControler.maxDisplayThickness = ParamsManager.params['maxDisplayThickness'];
 			CoreControler.textThreshold = ParamsManager.params['textThreshold'];
+			CoreControler.x = ParamsManager.params['centerX'];
+			CoreControler.y = ParamsManager.params['centerY'];
+			CoreControler.ratio = ParamsManager.params['zoomRatio'];
+			
+			Graph.defaultEdgeType = ParamsManager.params['defaultEdgeType'];
 			
 			GraphDrawer.setNodesColor(ParamsManager.params['nodesColor']);
 			GraphDrawer.setEdgesColor(ParamsManager.params['edgesColor']);
@@ -128,11 +137,28 @@ package ofnodesandedges.y2011.sigma{
 				flash.external.ExternalInterface.addCallback("setTextThreshold",function(value:Number):void{CoreControler.textThreshold = value;});
 				flash.external.ExternalInterface.addCallback("getTextThreshold",function():Number{return CoreControler.textThreshold;});
 				
+				flash.external.ExternalInterface.addCallback("setDraggable",function(value:Boolean):void{CoreControler.isDraggable = value;});
+				flash.external.ExternalInterface.addCallback("getDraggable",function():Boolean{return CoreControler.isDraggable;});
+				flash.external.ExternalInterface.addCallback("setZoomable",function(value:Boolean):void{CoreControler.isZoomable = value;});
+				flash.external.ExternalInterface.addCallback("getZoomable",function():Boolean{return CoreControler.isZoomable;});
+				flash.external.ExternalInterface.addCallback("setCenterX",function(value:int):void{CoreControler.x = value;});
+				flash.external.ExternalInterface.addCallback("getCenterX",function():int{return CoreControler.x;});
+				flash.external.ExternalInterface.addCallback("setCenterY",function(value:int):void{CoreControler.y = value;});
+				flash.external.ExternalInterface.addCallback("getCenterY",function():int{return CoreControler.y;});
+				flash.external.ExternalInterface.addCallback("setZoomRatio",function(value:Number):void{CoreControler.ratio = value;});
+				flash.external.ExternalInterface.addCallback("getZoomRatio",function():Number{return CoreControler.ratio;});
+				
 				flash.external.ExternalInterface.addCallback("changeNodesColor",SigmaMethods.setColor);
 				flash.external.ExternalInterface.addCallback("changeNodesSize",SigmaMethods.setSize);
 				
 				flash.external.ExternalInterface.addCallback("killForceAtlas",ForceAtlas.killAlgo);
 				flash.external.ExternalInterface.addCallback("initForceAtlas",ForceAtlas.initAlgo);
+				
+				flash.external.ExternalInterface.addCallback("applyCircularLayout",CircularLayout.apply);
+				flash.external.ExternalInterface.addCallback("rotate",function(angle:Number,centerX:Number=0,centerY:Number=0):void{
+					RotationLayout.angle = angle; RotationLayout.x = centerX; RotationLayout.y = centerY;
+					RotationLayout.rotate();
+				});
 				
 				// External callbacks:
 				if(ParamsManager.callbacks['onClickNodes']){

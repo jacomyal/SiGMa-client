@@ -14,12 +14,18 @@ package ofnodesandedges.y2011.sigma{
 				'displayNodes': true,
 				'displayLabels': true,
 				'useEdgeSizes': true,
+				'useFishEye': false,
+				'isDraggable': false,
+				'isZoomable': false,
 				// NUMBERS:
 				'minDisplaySize': 2,
 				'maxDisplaySize': 6,
 				'minDisplayThickness': 0.1,
 				'maxDisplayThickness': 0.5,
 				'textThreshold': 3.5,
+				'centerX': 0,
+				'centerY': 0,
+				'zoomRatio': 1,
 				// COLORS:
 				'nodesColor': 0xaaaaaa,
 				'edgesColor': 0x888888,
@@ -35,6 +41,9 @@ package ofnodesandedges.y2011.sigma{
 					case 'displayNodes':
 					case 'displayLabels':
 					case 'useEdgeSizes':
+					case 'useFishEye':
+					case 'isDraggable':
+					case 'isZoomable':
 						_params[key] = Boolean(obj[key]);
 						break;
 					// NUMBERS:
@@ -43,6 +52,9 @@ package ofnodesandedges.y2011.sigma{
 					case 'minDisplayThickness':
 					case 'maxDisplayThickness':
 					case 'textThreshold':
+					case 'centerX':
+					case 'centerY':
+					case 'zoomRatio':
 						_params[key] = Number(obj[key]);
 						break;
 					// COLORS:
